@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0b12">
+  <meta name="description" content="AchieveCxO is a private network for C-suite leaders.">
+  <title>AchieveCxO | A Private Network for C-Suite Leaders</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f8f6fc;
+      --muted: #c1bacd;
+      --soft: #a29ab2;
+      --accent: #b7a3ff;
+      --button: #cabaff;
+      --background: #0c0b12;
+      --panel: #171323;
+      --rule: #ffffff24;
+      --width: 1440px;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--background);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 5px;
+    }
+    .wrap { width: min(var(--width), 100% - clamp(36px, 10vw, 144px)); margin-inline: auto; }
+    .header { position: relative; z-index: 1; border-bottom: 1px solid var(--rule); }
+    .header-row { min-height: 98px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; }
+    .brand img { width: clamp(145px, 17vw, 230px); height: auto; display: block; }
+    .actions { display: flex; align-items: center; gap: clamp(15px, 2.3vw, 36px); }
+    .cta { display: inline-flex; justify-content: center; align-items: center; gap: 13px; padding: 13px 17px; border: 1px solid transparent; border-radius: 5px; background: var(--button); color: #171024; font-size: .85rem; font-weight: 750; white-space: nowrap; }
+    .cta:hover { background: #e1d7ff; }
+    .quiet { padding: 0; color: var(--ink); background: transparent; border: 0; font-size: .85rem; white-space: nowrap; }
+    .quiet:hover { color: var(--accent); }
+    .menu { position: relative; }
+    .menu summary { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--rule); border-radius: 5px; cursor: pointer; list-style: none; }
+    .menu summary::-webkit-details-marker { display: none; }
+    .menu summary:hover, .menu[open] summary { background: var(--panel); border-color: var(--accent); }
+    .menu-panel { position: absolute; top: calc(100% + 12px); right: 0; display: grid; width: 220px; padding: 7px; background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; box-shadow: 0 18px 50px #0008; }
+    .menu-panel > * { display: block; text-align: left; width: 100%; padding: 11px 12px; border-radius: 4px; font-size: .9rem; }
+    .menu-panel > :hover { background: #ffffff10; }
+    .hero { position: relative; isolation: isolate; flex: 1; display: grid; align-items: center; overflow: hidden; min-height: 570px; background: radial-gradient(ellipse at 6% 28%, #252044 0%, #151225 31%, transparent 62%), radial-gradient(ellipse at 92% 110%, #181329 0%, transparent 53%); }
+    .watermark { position: absolute; z-index: -1; width: min(49vw, 760px); height: auto; right: -1%; top: 50%; transform: translateY(-50%); pointer-events: none; }
+    .hero-copy { padding-block: clamp(88px, 11vw, 170px); }
+    .eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 24px; color: var(--accent); font-size: .69rem; font-weight: 750; text-transform: uppercase; letter-spacing: .21em; }
+    .eyebrow::before { content: ""; width: 29px; height: 1px; background: currentColor; }
+    h1 { max-width: 16ch; margin: 0; font-size: clamp(3rem, 6.15vw, 7rem); font-weight: 680; line-height: .99; letter-spacing: -.067em; text-wrap: balance; }
+    .summary { max-width: 51ch; margin: 29px 0 0; color: var(--muted); font-size: clamp(1rem, 1.23vw, 1.2rem); line-height: 1.72; text-wrap: pretty; }
+    .footer { border-top: 1px solid var(--rule); }
+    .footer-row { min-height: 85px; padding-block: 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; color: var(--soft); font-size: .8rem; }
+    .footer-row p { margin: 0; }
+    .socials[hidden] { display: none; }
+    .socials { display: flex; flex-wrap: wrap; gap: 18px; }
+    .socials a:hover { color: var(--ink); text-decoration: underline; }
+    dialog { width: min(440px, calc(100% - 36px)); padding: 28px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; box-shadow: 0 20px 65px #000a; }
+    dialog::backdrop { background: #08070bc9; }
+    dialog h2 { margin: 0; font-size: 1.45rem; }
+    dialog p { color: var(--muted); line-height: 1.6; margin: 12px 0 24px; }
+    @media (max-width: 640px) {
+      .header-row { padding-block: 17px; min-height: 0; display: grid; grid-template-columns: 1fr auto; gap: 14px; }
+      .actions { display: contents; }
+      .owners { grid-row: 2; grid-column: 1 / -1; justify-self: end; }
+      .menu { grid-row: 1; grid-column: 2; justify-self: end; }
+      .hero { min-height: 500px; }
+      .watermark { width: 85vw; right: -27%; opacity: .6; }
+      .hero-copy { padding-block: 80px; }
+      h1 { font-size: clamp(2.8rem, 9vw, 4rem); }
+      .footer-row { flex-wrap: wrap; }
+    }
+    .inquiry-tab {
+      position: fixed;
+      z-index: 2;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      min-width: 44px;
+      padding: 15px 9px;
+      border: 0;
+      border-radius: 8px 0 0 8px;
+      background: var(--button);
+      color: #171024;
+      font-size: .75rem;
+      font-weight: 750;
+    }
+    .inquiry-tab:hover { background: #e1d7ff; }
+    .inquiry-tab:focus-visible { outline-offset: -5px; }
+    .inquiry-tab-label { writing-mode: vertical-rl; transform: rotate(180deg); }
+    #membership-drawer {
+      position: fixed;
+      inset: 0 0 0 auto;
+      margin: 0;
+      width: 50vw;
+      max-width: none;
+      height: 100dvh;
+      max-height: none;
+      padding: 80px clamp(24px, 5vw, 72px) 32px;
+      overflow-y: auto;
+      border: 0;
+      border-left: 1px solid var(--rule);
+      border-radius: 0;
+      background: rgb(46 17 71 / 88%);
+      color: #fff;
+      backdrop-filter: blur(2px);
+    }
+    #membership-drawer[open] { animation: drawer-in 350ms ease-out; }
+    #membership-drawer::backdrop { background: rgb(0 0 0 / 20%); }
+    #inquiry-form { display: grid; gap: 14px; max-width: 480px; }
+    #inquiry-form label { display: grid; gap: 5px; }
+    #inquiry-form input, #inquiry-form textarea {
+      width: 100%;
+      padding: .65rem;
+      border: 1px solid #bca8d9;
+      border-radius: 5px;
+      color: #fff;
+      background: #21112f;
+      font: inherit;
+    }
+    #inquiry-form button { justify-self: start; }
+    #inquiry-status { margin: 0; color: #fff; }
+    .drawer-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--rule);
+      border-radius: 5px;
+      background: transparent;
+      color: inherit;
+      font-size: 1.5rem;
+    }
+    .drawer-close:hover { background: #ffffff10; }
+    @keyframes drawer-in {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    @media (max-width: 640px) {
+      #membership-drawer { width: 100%; }
+      .hero-copy { padding-right: 30px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #membership-drawer[open] { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="wrap header-row">
+      <a class="brand" href="./" aria-label="AchieveCxO home">
+        <img src="data:image/png;base64,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" alt="AchieveCxO" width="286" height="52">
+      </a>
+      <nav class="actions" aria-label="Main navigation">
+        <button type="button" class="quiet owners" data-destination="owners">Owners Suite</button>
+        <details class="menu">
+          <summary aria-label="Navigation menu">
+            <svg width="19" height="18" viewBox="0 0 19 18" aria-hidden="true"><path d="M2 5h15M2 12h15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </summary>
+          <div class="menu-panel">
+            <a href="#about">About AchieveCxO</a>
+            <a href="https://www.linkedin.com/company/achievecxo-executive-community/"
+               target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </header>
+
+  <button type="button" class="inquiry-tab" aria-haspopup="dialog" aria-controls="membership-drawer">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="m10 3-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="inquiry-tab-label">Membership Inquiry</span>
+  </button>
+
+  <main id="about" class="hero" aria-labelledby="headline">
+    <svg class="watermark" viewBox="0 0 680 520" aria-hidden="true">
+      <defs>
+        <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+          <stop stop-color="#9276e8" stop-opacity=".24"/>
+          <stop offset="1" stop-color="#9276e8" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M153 496 442 24h58L210 496z M226 496 515 24h58L283 496z M299 496 588 24h58L356 496z" fill="none" stroke="url(#mark)"/>
+      <circle cx="454" cy="364" r="73" fill="none" stroke="url(#mark)"/>
+    </svg>
+    <div class="wrap hero-copy">
+      <p class="eyebrow">AchieveCxO · Executive Network</p>
+      <h1 id="headline">A Private Network for C&#8209;Suite Leaders</h1>
+      <p class="summary">AchieveCxO brings executives together across industries and markets for candid conversations, shared perspective, and trusted relationships.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <p>© <span id="year">2026</span> AchieveCxO. All rights reserved.</p>
+      <nav class="socials" aria-label="Social media"></nav>
+    </div>
+  </footer>
+
+  <dialog id="link-preview" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <h2 id="dialog-title"></h2>
+    <p id="dialog-description"></p>
+    <form method="dialog"><button class="cta" autofocus>Close</button></form>
+  </dialog>
+
+  <dialog id="membership-drawer" aria-labelledby="membership-title" aria-describedby="membership-description">
+    <form method="dialog">
+      <button type="submit" class="drawer-close" aria-label="Close membership inquiry" autofocus>&rarr;</button>
+    </form>
+    <h2 id="membership-title">Membership Inquiry</h2>
+    <p id="membership-description">Tell us a little about yourself and your organization.</p>
+    <form id="inquiry-form" method="post" action="/inquiries">
+      <label>Full name <input name="name" autocomplete="name" maxlength="120" required></label>
+      <label>Work email <input type="email" name="email" autocomplete="email" maxlength="254" required></label>
+      <label>Organization <input name="organization" autocomplete="organization" maxlength="150" required></label>
+      <label>Job title (optional) <input name="title" autocomplete="organization-title" maxlength="150"></label>
+      <label>Message (optional) <textarea name="message" rows="4" maxlength="2000"></textarea></label>
+      <button type="submit" class="cta">Send inquiry</button>
+      <p id="inquiry-status" role="status"></p>
+    </form>
+  </dialog>
+
+  <script>
+    // TEMPLATE SETTINGS
+    // Social entries with empty URLs stay hidden.
+    const links = {
+      owners: "",
+      social: [
+        { label: "LinkedIn", url: "" }
+      ]
+    };
+
+    const previewMessages = {
+      owners: "This template opens your private owner portal once you add its URL in the template settings."
+    };
+
+    const menu = document.querySelector(".menu");
+    const dialog = document.querySelector("#link-preview");
+    const socials = document.querySelector(".socials");
+    const inquiryTab = document.querySelector(".inquiry-tab");
+    const inquiryDrawer = document.querySelector("#membership-drawer");
+    const inquiryForm = document.querySelector("#inquiry-form");
+    const inquiryStatus = document.querySelector("#inquiry-status");
+    inquiryForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const sendButton = inquiryForm.querySelector("button[type=submit]");
+      if (sendButton.disabled) return;
+      sendButton.disabled = true;
+      inquiryStatus.textContent = "Sending…";
+
+      try {
+        const response = await fetch(inquiryForm.action, {
+          method: "POST",
+          body: new URLSearchParams(new FormData(inquiryForm))
+        });
+        const result = await response.json();
+        if (response.ok) inquiryForm.reset();
+        inquiryStatus.textContent = result.message;
+      } catch {
+        inquiryStatus.textContent = "We couldn’t confirm your submission. Please try again.";
+      } finally {
+        sendButton.disabled = false;
+      }
+    });
+    inquiryTab.addEventListener("click", () => {
+      menu.open = false;
+      inquiryDrawer.showModal();
+    });
+    document.querySelector("#year").textContent = new Date().getFullYear();
+
+    for (const { label, url } of links.social) {
+      if (!url) continue;
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.textContent = label;
+      socials.append(anchor);
+    }
+    socials.hidden = socials.children.length === 0;
+
+    for (const button of document.querySelectorAll("[data-destination]")) {
+      const destination = button.dataset.destination;
+      
+      if (links[destination]) {
+        const anchor = document.createElement("a");
+        anchor.className = button.className;
+        anchor.innerHTML = button.innerHTML;
+        anchor.href = links[destination];
+        button.replaceWith(anchor);
+        continue;
+      }
+      button.addEventListener("click", () => {
+        dialog.querySelector("h2").textContent = button.textContent.trim();
+        dialog.querySelector("p").textContent = previewMessages[destination];
+        dialog.showModal();
+      });
+    }
+
+    menu.querySelectorAll("a").forEach((anchor) => {
+      anchor.addEventListener("click", () => { menu.open = false; });
+    });
+    document.addEventListener("click", (event) => {
+      if (menu.open && !menu.contains(event.target) && !dialog.open) menu.open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menu.open && !dialog.open && !event.defaultPrevented) {
+        menu.open = false;
+        menu.querySelector("summary").focus();
+      }
+    });
+  </script>
+</body>
+</html>
